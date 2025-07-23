@@ -35,6 +35,19 @@ export const getAccessToken = async () => {
   return accessToken;
 };
 
+export async function fetchPetById(token, id) {
+  const url = `https://api.petfinder.com/v2/animals/${id}`;
+  const response = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!response.ok) {
+    throw new Error("Failed to fetch pet by ID");
+  }
+  const data = await response.json();
+  return data.animal;
+}
 
 export const fetchPets = async (token, params = "") => {
   const res = await fetch(`https://api.petfinder.com/v2/animals?limit=20${params}`, {
